@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Employee Leave and Attendance Tracker</display-name>
+
+    <!-- ==================== FILTERS ==================== -->
+
+    <!-- Authentication Filter -->
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>com.itc.employeeleaveattendance.filter.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/employee/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/manager/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Authorization Filter (runs after Authentication) -->
+    <filter>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>com.itc.employeeleaveattendance.filter.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/employee/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/manager/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ==================== SERVLETS ==================== -->
+
+    <!-- Login -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <!-- Logout -->
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <!-- Employee Dashboard -->
+    <servlet>
+        <servlet-name>EmployeeDashboardServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.EmployeeDashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeDashboardServlet</servlet-name>
+        <url-pattern>/employee/dashboard</url-pattern>
+    </servlet-mapping>
+
+    <!-- Apply Leave -->
+    <servlet>
+        <servlet-name>ApplyLeaveServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.ApplyLeaveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApplyLeaveServlet</servlet-name>
+        <url-pattern>/employee/apply-leave</url-pattern>
+    </servlet-mapping>
+
+    <!-- Leave History -->
+    <servlet>
+        <servlet-name>LeaveHistoryServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.LeaveHistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaveHistoryServlet</servlet-name>
+        <url-pattern>/employee/leave-history</url-pattern>
+    </servlet-mapping>
+
+    <!-- Leave Balance -->
+    <servlet>
+        <servlet-name>LeaveBalanceServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.LeaveBalanceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaveBalanceServlet</servlet-name>
+        <url-pattern>/employee/leave-balance</url-pattern>
+    </servlet-mapping>
+
+    <!-- Manager Dashboard -->
+    <servlet>
+        <servlet-name>ManagerDashboardServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.ManagerDashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagerDashboardServlet</servlet-name>
+        <url-pattern>/manager/dashboard</url-pattern>
+    </servlet-mapping>
+
+    <!-- Approve Leave -->
+    <servlet>
+        <servlet-name>ApproveLeaveServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.ApproveLeaveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApproveLeaveServlet</servlet-name>
+        <url-pattern>/manager/approve</url-pattern>
+    </servlet-mapping>
+
+    <!-- Reject Leave -->
+    <servlet>
+        <servlet-name>RejectLeaveServlet</servlet-name>
+        <servlet-class>com.itc.employeeleaveattendance.controller.RejectLeaveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RejectLeaveServlet</servlet-name>
+        <url-pattern>/manager/reject</url-pattern>
+    </servlet-mapping>
+
+    <!-- ==================== WELCOME FILE ==================== -->
+
+    <welcome-file-list>
+        <welcome-file>login</welcome-file>
+    </welcome-file-list>
+
+    <!-- ==================== ERROR PAGES ==================== -->
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/views/common/access-denied.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/common/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/common/error.jsp</location>
+    </error-page>
+
+    <!-- ==================== SESSION CONFIG ==================== -->
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+</web-app>
