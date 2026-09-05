@@ -15,7 +15,7 @@ public interface LeaveBalanceDao {
     LeaveBalance findByEmpId(int empId);
 
     /**
-     * Find leave balance for an employee using the given connection (for transactions).
+     * Find and lock leave balance for an employee using the given connection (for transactions).
      */
     LeaveBalance findByEmpId(int empId, Connection conn);
 

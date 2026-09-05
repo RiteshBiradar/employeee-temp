@@ -66,6 +66,7 @@ CREATE TABLE employees (
     name        VARCHAR2(100) NOT NULL,
     email       VARCHAR2(100) NOT NULL UNIQUE,
     role        VARCHAR2(20)  NOT NULL CHECK (role IN ('EMPLOYEE', 'MANAGER')),
+    password    VARCHAR2(255),
     manager_id  NUMBER(10),
     CONSTRAINT fk_employee_manager FOREIGN KEY (manager_id) REFERENCES employees(emp_id)
 );
@@ -169,6 +170,12 @@ INSERT INTO leave_requests (request_id, emp_id, leave_type, start_date, end_date
 -- Kavita Nair (emp_id=7): Pending sick leave
 INSERT INTO leave_requests (request_id, emp_id, leave_type, start_date, end_date, status, reason)
     VALUES (leave_requests_seq.NEXTVAL, 7, 'SICK', TO_DATE('2026-09-10', 'YYYY-MM-DD'), TO_DATE('2026-09-12', 'YYYY-MM-DD'), 'PENDING', 'Fever and cold');
+
+COMMIT;
+
+-- Set demo plaintext passwords for seeded employees (CHANGE TO HASHED IN PRODUCTION)
+UPDATE employees SET password = 'manager123' WHERE email IN ('priya.sharma@company.com','rajesh.kumar@company.com');
+UPDATE employees SET password = 'password123' WHERE email IN ('anita.desai@company.com','vikram.patel@company.com','sneha.iyer@company.com','amit.verma@company.com','kavita.nair@company.com');
 
 COMMIT;
 

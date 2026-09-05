@@ -23,7 +23,7 @@ public interface LeaveRequestDao {
     LeaveRequest findById(int requestId);
 
     /**
-     * Finds a leave request by its ID using the given connection (for transactions).
+     * Finds and locks a leave request by its ID using the given connection (for transactions).
      */
     LeaveRequest findById(int requestId, Connection conn);
 

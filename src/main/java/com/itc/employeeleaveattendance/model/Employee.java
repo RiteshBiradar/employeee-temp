@@ -14,6 +14,7 @@ public class Employee implements Serializable {
     private String email;
     private String role;
     private Integer managerId;
+    private String password;
 
     public Employee() {
     }
@@ -24,6 +25,14 @@ public class Employee implements Serializable {
         this.email = email;
         this.role = role;
         this.managerId = managerId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getEmpId() {

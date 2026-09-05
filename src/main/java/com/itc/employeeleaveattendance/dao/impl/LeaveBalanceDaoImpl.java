@@ -37,7 +37,7 @@ public class LeaveBalanceDaoImpl implements LeaveBalanceDao {
     @Override
     public LeaveBalance findByEmpId(int empId, Connection conn) {
         String sql = "SELECT balance_id, emp_id, casual_balance, sick_balance, earned_balance " +
-                     "FROM leave_balances WHERE emp_id = ?";
+                     "FROM leave_balances WHERE emp_id = ? FOR UPDATE";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, empId);
             try (ResultSet rs = ps.executeQuery()) {

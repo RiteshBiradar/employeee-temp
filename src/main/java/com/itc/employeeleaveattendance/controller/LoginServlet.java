@@ -44,10 +44,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        // Load all employees for dropdown
-        List<Employee> employees = authService.getAllEmployees();
-        request.setAttribute("employees", employees);
-
+        // Show email/password login form
         request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
     }
 
@@ -55,43 +52,32 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String empIdStr = request.getParameter("empId");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-        if (empIdStr == null || empIdStr.isBlank()) {
-            request.setAttribute("error", "Please select an employee account.");
-            List<Employee> employees = authService.getAllEmployees();
-            request.setAttribute("employees", employees);
+        if (email == null || email.isBlank() || password == null || password.isBlank()) {
+            request.setAttribute("error", "Please enter email and password.");
             request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
             return;
         }
 
         try {
-            int empId = Integer.parseInt(empIdStr);
-            Employee employee = authService.login(empId);
+            Employee employee = authService.login(email.trim(), password);
 
-            // Create session and store employee info (role from DB, not from client)
             HttpSession session = request.getSession(true);
             session.setAttribute("empId", employee.getEmpId());
             session.setAttribute("empName", employee.getName());
             session.setAttribute("role", employee.getRole());
             session.setMaxInactiveInterval(30 * 60); // 30 minutes
 
-            // Redirect to appropriate dashboard based on role
             if (Role.MANAGER.equals(employee.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/manager/dashboard");
             } else {
                 response.sendRedirect(request.getContextPath() + "/employee/dashboard");
             }
 
-        } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid selection.");
-            List<Employee> employees = authService.getAllEmployees();
-            request.setAttribute("employees", employees);
-            request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
         } catch (AuthenticationException e) {
             request.setAttribute("error", e.getMessage());
-            List<Employee> employees = authService.getAllEmployees();
-            request.setAttribute("employees", employees);
             request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
         }
     }

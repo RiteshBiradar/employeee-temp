@@ -133,6 +133,11 @@
 
     <welcome-file-list>
         <welcome-file>login</welcome-file>
+
+        <!-- Optional startup migration listener: set -DrunPasswordMigration=true to run -->
+        <listener>
+            <listener-class>com.itc.employeeleaveattendance.util.StartupMigrationListener</listener-class>
+        </listener>
     </welcome-file-list>
 
     <!-- ==================== ERROR PAGES ==================== -->

@@ -19,7 +19,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public Employee findById(int empId) {
-        String sql = "SELECT emp_id, name, email, role, manager_id FROM employees WHERE emp_id = ?";
+        String sql = "SELECT emp_id, name, email, role, manager_id, password FROM employees WHERE emp_id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, empId);
@@ -37,7 +37,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public Employee findByEmail(String email) {
-        String sql = "SELECT emp_id, name, email, role, manager_id FROM employees WHERE email = ?";
+        String sql = "SELECT emp_id, name, email, role, manager_id, password FROM employees WHERE email = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
@@ -55,7 +55,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public List<Employee> findAll() {
-        String sql = "SELECT emp_id, name, email, role, manager_id FROM employees ORDER BY role, name";
+        String sql = "SELECT emp_id, name, email, role, manager_id, password FROM employees ORDER BY role, name";
         List<Employee> employees = new ArrayList<>();
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -81,6 +81,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
         emp.setRole(rs.getString("role"));
         int managerId = rs.getInt("manager_id");
         emp.setManagerId(rs.wasNull() ? null : managerId);
+        try {
+            emp.setPassword(rs.getString("password"));
+        } catch (SQLException ignore) {
+            // password column may not exist in older schemas
+        }
         return emp;
     }
 }

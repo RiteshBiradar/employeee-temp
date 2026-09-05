@@ -28,15 +28,13 @@
 
             <form method="post" action="${pageContext.request.contextPath}/login" id="loginForm">
                 <div class="form-group">
-                    <label for="empId">Select Account <span class="required">*</span></label>
-                    <select class="form-control" id="empId" name="empId" required>
-                        <option value="">-- Select an employee --</option>
-                        <c:forEach var="emp" items="${employees}">
-                            <option value="${emp.empId}">
-                                <c:out value="${emp.name}" /> (<c:out value="${emp.role}" />) &mdash; <c:out value="${emp.email}" />
-                            </option>
-                        </c:forEach>
-                    </select>
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="you@company.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" class="form-control" id="password" name="password" required />
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btn-login">Sign In</button>

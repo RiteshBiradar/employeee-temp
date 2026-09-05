@@ -60,7 +60,7 @@ public class LeaveRequestDaoImpl implements LeaveRequestDao {
     @Override
     public LeaveRequest findById(int requestId, Connection conn) {
         String sql = "SELECT request_id, emp_id, leave_type, start_date, end_date, status, reason " +
-                     "FROM leave_requests WHERE request_id = ?";
+                     "FROM leave_requests WHERE request_id = ? FOR UPDATE";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, requestId);
             try (ResultSet rs = ps.executeQuery()) {
